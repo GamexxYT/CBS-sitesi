@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Coğrafi Harita</title>
+
+  <!-- Leaflet map styles -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <!-- Your original CSS -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #228B22;
+      color: #000000;
+    }
+
+    .app {
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    header {
+      background: #123b5d;
+      color: white;
+      padding: 30px;
+      border-radius: 16px;
+    }
+
+    header h1 {
+      margin-top: 0;
+      font-size: 36px;
+    }
+
+    main {
+      background: #2E8B57;
+      margin-top: 20px;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px #0001;
+    }
+
+    button {
+      background: #16856b;
+      color: white;
+      border: none;
+      padding: 13px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #10664f;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #ffffff;
+    }
+
+    #map {
+      height: 400px;
+      width: 100%;
+      margin-top: 24px;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .app {
+        margin: 10px auto;
+        padding: 12px;
+      }
+
+      header,
+      main {
+        padding: 20px;
+      }
+
+      header h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <h1>🗺️ Coğrafi harita</h1>
+      <p>bildiğin bir dünya haritası</p>
+    </header>
+
+    <main>
+      <h2>harita</h2>
+      <p>etrafına bakabilirsin</p>
+
+      <button id="exploreBtn">haritayı aç</button>
+
+      <div id="map"></div>
+
+      <p id="message">harita burdan açılıyor.</p>
+    </main>
+
+    <footer>
+      My first CBS-based website
+    </footer>
+  </div>
+
+  <!-- Leaflet map library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Your JavaScript -->
+  <script>
+    const button = document.getElementById("exploreBtn");
+    const message = document.getElementById("message");
+
+    button.addEventListener("click", function () {
+      message.textContent =
+        "Welcome, explorer! Your map adventure begins now! 🗺️";
+
+      button.textContent = "harita zaten açıktı <:";
+
+      map.setView([41.0082, 28.9784], 12);
+    });
+
+    const map = L.map("map").setView([41.0082, 28.9784], 12);
+
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const places = [
+      {
+        name: "Hagia Sophia",
+        coords: [41.0086, 28.9802],
+        info: "A famous historic landmark in Istanbul."
+      },
+      {
+        name: "Galata tower",
+        coords: [41.0256, 28.9741],
+        info: "A historic tower overlooking the city."
+      },
+      {
+        name: "Taksim Square",
+        coords: [41.0370, 28.9850],
+        info: "A major public square in Istanbul."
+      }
+    ];
+
+    places.forEach(function (place) {
+      L.marker(place.coords)
+        .addTo(map)
+        .bindPopup("<b>" + place.name + "</b><br>" + place.info);
+    });
+
+    setTimeout(function () {
+      map.invalidateSize();
+    }, 500);
+
+    window.addEventListener("resize", function () {
+      map.invalidateSize();
+    });
+  </script>
+</body>
+</html>
